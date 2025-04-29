@@ -1,5 +1,5 @@
 import { ServiceBase } from "../../base/ServiceBase.js";
-import { AddAdoptersModel } from "../request/AddAdoptersModel.js";
+import { AdoptersModel } from "../request/AdoptersModel.js";
 import { type Response } from "../responses/Response.js";
 
 export class AdoptersService extends ServiceBase {
@@ -7,7 +7,7 @@ export class AdoptersService extends ServiceBase {
     super(`/adopters`);
   }
 
-  async addAdopters<T>(addAdopters: AddAdoptersModel): Promise<Response<T>> {
+  async addAdopters<T>(addAdopters: AdoptersModel): Promise<Response<T>> {
     return await this.post(this.url, addAdopters);
   }
 
@@ -16,15 +16,14 @@ export class AdoptersService extends ServiceBase {
     options?: { params?: URLSearchParams; includeCat?: boolean },
   ): Promise<Response<T>> {
     const params = options?.params ?? new URLSearchParams();
-  
+
     if (options?.includeCat !== undefined) {
-      params.set('includeCat', String(options.includeCat));
+      params.set("includeCat", String(options.includeCat));
     }
-  
+
     const queryString = params.toString() ? `?${params.toString()}` : "";
     return await this.get(`${this.url}/${id}${queryString}`);
   }
-  
 
   async getAdopters<T>(): Promise<Response<T>> {
     return await this.get(this.url);

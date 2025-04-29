@@ -1,7 +1,7 @@
-import { AddAdoptersResponse } from "../models/responses/AddAdoptersResponse";
 import { AdoptersService } from "../models/services/AdoptersService.ts";
 import { should } from "chai";
-import { generateAddAdoptersPayload } from "../utils/constants/generate-payloads.js";
+import { AdoptersModel } from "../models/request/AdoptersModel.ts";
+import { generateAddAdoptersPayload } from "../utils/generate-payloads.js";
 import { ErrorResponse } from "../models/responses/ErrorResponse.ts";
 should();
 
@@ -14,11 +14,11 @@ describe("Add Adopter", () => {
 
   it("Success test - 201", async () => {
     const addAdopters = generateAddAdoptersPayload();
-    const addAdoptersResponse = await adoptersService.addAdopters<AddAdoptersResponse>(addAdopters);
+    const addAdoptersResponse = await adoptersService.addAdopters<AdoptersModel>(addAdopters);
 
     addAdoptersResponse.status.should.equal(201);
     addAdoptersResponse.data.should.have.property("id");
-    addAdoptersResponse.data.id.should.be.a("number");
+    addAdoptersResponse.data.id?.should.be.a("number");
     addAdoptersResponse.data.should.have.property("name", addAdopters.name);
     addAdoptersResponse.data.should.have.property("lastName", addAdopters.lastName);
     addAdoptersResponse.data.should.have.property("dateOfBirth");
@@ -26,10 +26,9 @@ describe("Add Adopter", () => {
   });
 
   it("Invalid name - 400", async () => {
-    const addAdopters = generateAddAdoptersPayload();
-    // @ts-expect-error
-    addAdopters.name = 0;
-    const addAdoptersResponse = await adoptersService.addAdopters<ErrorResponse>(addAdopters);
+    const invalidAddAdopters: any = generateAddAdoptersPayload();
+    invalidAddAdopters.name = 0;
+    const addAdoptersResponse = await adoptersService.addAdopters<ErrorResponse>(invalidAddAdopters);
 
     addAdoptersResponse.status.should.equal(400);
   });
@@ -43,10 +42,9 @@ describe("Add Adopter", () => {
   });
 
   it("Invalid lastname - 400", async () => {
-    const addAdopters = generateAddAdoptersPayload();
-    // @ts-expect-error
-    addAdopters.lastName = 0;
-    const addAdoptersResponse = await adoptersService.addAdopters<ErrorResponse>(addAdopters);
+    const invalidAddAdopters: any = generateAddAdoptersPayload();
+    invalidAddAdopters.lastName = 0;
+    const addAdoptersResponse = await adoptersService.addAdopters<ErrorResponse>(invalidAddAdopters);
 
     addAdoptersResponse.status.should.equal(400);
   });
@@ -59,17 +57,16 @@ describe("Add Adopter", () => {
     addAdoptersResponse.status.should.equal(400);
   });
 
-  // BUG: https://github.com/CodingRainbowCat/CatCafeProject/issues/5
-  /*it("DateOfBirth < 18 years - 400", async () => {
+  // BUG: https://github.com/Espositosole/api-automation-training/issues/4
+  // eslint-disable-next-line ui-testing/no-disabled-tests
+  it.skip("DateOfBirth < 18 years - 400", async () => {
     const addAdopters = generateAddAdoptersPayload();
     addAdopters.dateOfBirth = "2020-04-24";
     const addAdoptersResponse = await adoptersService.addAdopters<ErrorResponse>(addAdopters);
 
     addAdoptersResponse.status.should.equal(400);
-    addAdoptersResponse.data.message.should.equal(
-      "The adopter must be at least 18 years old to adopt a cat",
-    );
-  });*/
+    addAdoptersResponse.data.error.should.contain("message", "The adopter must be at least 18 years old to adopt a cat");
+  });
 
   it("No DateOfBirth - 400", async () => {
     const addAdopters = generateAddAdoptersPayload();
@@ -81,8 +78,7 @@ describe("Add Adopter", () => {
 
   it("Phone.length < 8  - 400", async () => {
     const addAdopters = generateAddAdoptersPayload();
-    // @ts-expect-error
-    addAdopters.phone = 0;
+    addAdopters.phone = "1";
     const addAdoptersResponse = await adoptersService.addAdopters<ErrorResponse>(addAdopters);
 
     addAdoptersResponse.status.should.equal(400);
@@ -104,10 +100,17 @@ describe("Add Adopter", () => {
     addAdoptersResponse.status.should.equal(400);
   });
 
-  it("Invalid address - 400", async () => {
+  it("Invalid address number - 400", async () => {
+    const invalidAddAdopters: any = generateAddAdoptersPayload();
+    invalidAddAdopters.address = 0;
+    const addAdoptersResponse = await adoptersService.addAdopters<ErrorResponse>(invalidAddAdopters);
+
+    addAdoptersResponse.status.should.equal(400);
+  });
+
+  it("Invalid address too short - 400", async () => {
     const addAdopters = generateAddAdoptersPayload();
-    // @ts-expect-error
-    addAdopters.address = 0;
+    addAdopters.address = "A";
     const addAdoptersResponse = await adoptersService.addAdopters<ErrorResponse>(addAdopters);
 
     addAdoptersResponse.status.should.equal(400);
