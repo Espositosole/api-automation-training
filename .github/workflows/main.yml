@@ -8,8 +8,6 @@ on:
 
 env:
   BASEURL: ${{ vars.BASEURL }}
-  USER: ${{ secrets.USER }}
-  PASSWORD: ${{ secrets.PASSWORD }}
 
 jobs:
   build:
@@ -26,3 +24,4 @@ jobs:
           node-version: "18.x"
       - run: npm install
       - run: npm run lint
+      - run: npm run test
