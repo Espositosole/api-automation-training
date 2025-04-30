@@ -1,6 +1,6 @@
-import { AdoptersModel } from "../models/request/AdoptersModel.ts";
-import { AdoptersService } from "../models/services/AdoptersService.ts";
-import { generateAddAdoptersPayload } from "../utils/generate-payloads.js";
+import { AdoptersModel } from "../../models/request/AdoptersModel.ts";
+import { AdoptersService } from "../../models/services/AdoptersService.ts";
+import { generateAddAdoptersPayload } from "../../utils/generate-payloads.js";
 
 describe("Delete Adopter", () => {
   let adoptersService: AdoptersService;

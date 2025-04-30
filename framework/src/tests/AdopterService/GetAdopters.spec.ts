@@ -1,5 +1,5 @@
-import { AdoptersModel } from "../models/request/AdoptersModel.ts";
-import { AdoptersService } from "../models/services/AdoptersService.ts";
+import { AdoptersModel } from "../../models/request/AdoptersModel.ts";
+import { AdoptersService } from "../../models/services/AdoptersService.ts";
 
 describe("Get Adopters", () => {
   let adoptersService: AdoptersService;
