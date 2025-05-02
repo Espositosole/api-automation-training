@@ -42,15 +42,15 @@ export class CatsService extends ServiceBase {
     return await this.get(`${this.url}/${id}`);
   }
 
-  async updateCatById<T>(id: number, config = this.defaultConfig): Promise<Response<T>> {
-    return await this.put(`${this.url}/${id}`, config);
+  async updateCatById<T>(id: number, addCats: CatsModel): Promise<Response<T>> {
+    return await this.put(`${this.url}/${id}`, addCats);
   }
 
   async deleteCatById<T>(id: number): Promise<Response<T>> {
     return await this.delete(`${this.url}/${id}`);
   }
 
-  async updateCatsStaff<T>(id: number, UpdateCatsModel: UpdateCatsModel): Promise<Response<T>> {
+  async updateCatsStaffOrAdopter<T>(id: number, UpdateCatsModel: UpdateCatsModel): Promise<Response<T>> {
     return await this.patch(`${this.url}/${id}`, UpdateCatsModel);
   }
 }

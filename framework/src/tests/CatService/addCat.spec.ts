@@ -36,7 +36,7 @@ describe("Add Cat", () => {
 
   //BUG: https://github.com/Espositosole/api-automation-training/issues/10
   // eslint-disable-next-line ui-testing/no-disabled-tests
-  it.skip("Success test with adopterId - 200", async () => {
+  it.skip("Success test with adopterId - 201", async () => {
     const addCats = generateAddCatsPayload(); 
     addCats.isAdopted = true;
     addCats.adopterId = adopterId;

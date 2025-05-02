@@ -3,17 +3,14 @@ import { CatsModel } from "../../models/request/CatsModel.js";
 import { CatsService } from "../../models/services/CatsService.js";
 import { generateAddCatsPayload } from "../../utils/generate-payloads.js";
 
-
-// eslint-disable-next-line ui-testing/no-focused-tests
-describe.only("Get Cats", () => {
+describe("Get Cats", () => {
   let catsService: CatsService;
   let catId: number;
   const addCats = generateAddCatsPayload();
 
-  before(async () => {
+  before(() => {
     catsService = new CatsService();
   });
-
 
   it("Success test no parameters - 200", async () => {
     const addCatsResponse = await catsService.addCats<CatsModel>(addCats);
