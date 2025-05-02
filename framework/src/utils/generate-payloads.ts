@@ -27,6 +27,7 @@ export const generateAddCatsPayload = (
   staffInCharge = "00000000-0000-0000-0000-000000000000",
   isAdopted = false,
   adopterId?: number,
+  id?: number,
 ): CatsModel => {
   return {
     name,
@@ -38,5 +39,6 @@ export const generateAddCatsPayload = (
     staffInCharge,
     isAdopted,
     adopterId,
+    id,
   } as CatsModel;
-}
+};

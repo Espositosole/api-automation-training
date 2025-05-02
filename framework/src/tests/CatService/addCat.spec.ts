@@ -19,7 +19,7 @@ describe("Add Cat", () => {
   });
 
   it("Success test - 200", async () => {
-    const addCats = generateAddCatsPayload();
+    const addCats = generateAddCatsPayload(); 
     const addCatsResponse = await catsService.addCats<CatsModel>(addCats);
 
     addCatsResponse.status.should.equal(201);

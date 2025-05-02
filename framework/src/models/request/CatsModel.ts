@@ -5,9 +5,7 @@ export interface CatsModel {
     breed: string,
     dateJoined: string,
     vaccinated: boolean,
-    temperament: [
-      string
-    ],
+    temperament: string[],
     staffInCharge: string,
     isAdopted: boolean,
     adopterId?: number,

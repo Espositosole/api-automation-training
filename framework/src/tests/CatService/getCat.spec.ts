@@ -1,26 +1,87 @@
+import { should } from "chai";
 import { CatsModel } from "../../models/request/CatsModel.js";
 import { CatsService } from "../../models/services/CatsService.js";
+import { generateAddCatsPayload } from "../../utils/generate-payloads.js";
+
 
 // eslint-disable-next-line ui-testing/no-focused-tests
 describe.only("Get Cats", () => {
   let catsService: CatsService;
+  let catId: number;
+  const addCats = generateAddCatsPayload();
 
-  before(() => {
+  before(async () => {
     catsService = new CatsService();
   });
 
-  it("Success test - 200", async () => {
-    const getCatsResponse = await catsService.getCats<CatsModel>(1);
 
+  it("Success test no parameters - 200", async () => {
+    const addCatsResponse = await catsService.addCats<CatsModel>(addCats);
+    catId = addCatsResponse.data.id ?? -1;
+
+    const getCatsResponse = await catsService.getCats<CatsModel>({
+    })
     getCatsResponse.status.should.equal(200);
-    getCatsResponse.data.should.have.property("id", 1);
-    getCatsResponse.data.should.have.property("name");
-    getCatsResponse.data.should.have.property("age");
-    getCatsResponse.data.should.have.property("breed");
-    getCatsResponse.data.should.have.property("dateJoined");
-    getCatsResponse.data.should.have.property("vaccinated");
-    getCatsResponse.data.should.have.property("temperament");
-    getCatsResponse.data.should.have.property("staffInCharge");
+    const cats = getCatsResponse.data as unknown as CatsModel[];
+    const matchedCat = cats.find(cat => cat.id === catId)
+
+    should().exist(matchedCat);
+
+    matchedCat!.should.have.property("id");
+    matchedCat!.should.have.property("name", addCats.name);
+    matchedCat!.should.have.property("age");
+    matchedCat!.should.have.property("breed");
+    matchedCat!.should.have.property("dateJoined");
+    matchedCat!.should.have.property("vaccinated");
+    matchedCat!.should.have.property("temperament");
+    matchedCat!.should.have.property("staffInCharge");
   });
+
+  
+  it("Success test with parameters - 200", async () => {
+    const addCats = generateAddCatsPayload();
+    addCats.isAdopted = true;
+    addCats.adopterId = 1;
+    const createdCat = await catsService.addCats<CatsModel>(addCats);
+    catId = createdCat.data.id ?? -1;
+  
+    const getCatsResponse = await catsService.getCats<CatsModel>({
+      isAdopted: true,
+      temperaments: "Calm",
+    });
+    getCatsResponse.status.should.equal(200);
+    const cats = getCatsResponse.data as unknown as CatsModel[];
+    const matchedCat = cats.find(cat => cat.id === catId)
+
+    should().exist(matchedCat);
+    matchedCat!.should.have.property("id");
+    matchedCat!.should.have.property("name", addCats.name);
+    matchedCat!.should.have.property("isAdopted", true);
+    matchedCat!.should.have.property("temperament").that.is.an("array");
+  });
+
+
+  it("Success test with multiple temperaments - 200", async () => {
+    const addCats = generateAddCatsPayload();
+    addCats.isAdopted = true;
+    addCats.adopterId = 1;
+    addCats.temperament = ["Dominant", "Playful"];
+    const createdCat = await catsService.addCats<CatsModel>(addCats);
+    catId = createdCat.data.id ?? -1;
+  
+    const getCatsResponse = await catsService.getCats<CatsModel>({
+      isAdopted: true,
+      temperaments: ["Dominant", "Playful"],
+    });
+    getCatsResponse.status.should.equal(200);
+    const cats = getCatsResponse.data as unknown as CatsModel[];
+    const matchedCat = cats.find(cat => cat.id === catId)
+
+    should().exist(matchedCat);
+    matchedCat!.should.have.property("id");
+    matchedCat!.should.have.property("name", addCats.name);
+    matchedCat!.should.have.property("isAdopted", true);
+    matchedCat!.should.have.property("temperament").that.is.an("array");
+  }); 
 
 });

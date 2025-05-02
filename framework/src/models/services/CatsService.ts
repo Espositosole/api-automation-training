@@ -14,7 +14,6 @@ export class CatsService extends ServiceBase {
   }
 
   async getCats<T>(
-    id: number,
     options?: { params?: URLSearchParams; isAdopted?: boolean; temperaments?: string | string[] },
   ): Promise<Response<T>> {
     const params = options?.params ?? new URLSearchParams();
@@ -36,7 +35,7 @@ export class CatsService extends ServiceBase {
     }
 
     const queryString = params.toString() ? `?${params.toString()}` : "";
-    return await this.get(`${this.url}/${id}${queryString}`);
+    return await this.get(`${this.url}/${queryString}`);
   }
 
   async getCatById<T>(id: number): Promise<Response<T>> {
