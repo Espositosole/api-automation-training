@@ -14,7 +14,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: ./framework
+        working-directory: ./api-automation-training
 
     steps:
       - uses: actions/checkout@v2
@@ -28,5 +28,6 @@ jobs:
             npx wait-on http://localhost:3000
         working-directory: ./CatCafeProject
       - run: npm install
-      - run: npm run lint
-      - run: npm run test
+             npm run lint
+             npm run test
+        working-directory: ./framework
