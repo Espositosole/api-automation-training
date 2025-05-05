@@ -24,7 +24,8 @@ jobs:
             npm run dev &
             npx wait-on http://localhost:3000
         working-directory: ./CatCafeProject
-      - run: npm install
-             npm run lint
-             npm run test
+      - run: |
+            npm install
+            npm run lint
+            npm run test
         working-directory: ./framework
