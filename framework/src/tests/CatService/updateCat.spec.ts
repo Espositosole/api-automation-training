@@ -1,13 +1,23 @@
+import { AdoptersModel } from "../../models/request/AdoptersModel.js";
 import { CatsModel } from "../../models/request/CatsModel.js";
+import { AdoptersService } from "../../models/services/AdoptersService.js";
 import { CatsService } from "../../models/services/CatsService.js";
-import { generateAddCatsPayload } from "../../utils/generate-payloads.js";
+import { generateAddAdoptersPayload, generateAddCatsPayload } from "../../utils/generate-payloads.js";
 
 describe("Update Cat", () => {
   let catsService: CatsService;
+  let adoptersService: AdoptersService;
   let catId: number;
+  let adopterId: number;
   const addCats = generateAddCatsPayload();
+  const addAdopters = generateAddAdoptersPayload();
 
   before(async () => {
+    adoptersService = new AdoptersService();
+    const addAdoptersResponse = await adoptersService.addAdopters<AdoptersModel>(addAdopters);
+    adopterId = addAdoptersResponse.data.id ?? -1;
+    console.log("Adopter ID: ", adopterId);
+
     catsService = new CatsService();
     const addCatsResponse = await catsService.addCats<CatsModel>(addCats);
     catId = addCatsResponse.data.id ?? -1;
@@ -26,7 +36,7 @@ describe("Update Cat", () => {
       temperament: ["Dominant"],
       staffInCharge: "00000000-0000-0000-0000-000000000000",
       isAdopted: true,
-      adopterId: 1,
+      adopterId: adopterId,
     };
 
     const updatedCatResponse = await catsService.updateCatById<CatsModel>(catId, updatedCat);
@@ -59,7 +69,7 @@ describe("Update Cat", () => {
       temperament: ["Dominant"],
       staffInCharge: "00000000-0000-0000-0000-000000000000",
       isAdopted: true,
-      adopterId: 1,
+      adopterId: adopterId,
     };
 
     const updatedCatResponse = await catsService.updateCatById<CatsModel>(-1, updatedCat);

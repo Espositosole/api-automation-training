@@ -13,9 +13,11 @@ export class CatsService extends ServiceBase {
     return await this.post(this.url, addCats);
   }
 
-  async getCats<T>(
-    options?: { params?: URLSearchParams; isAdopted?: boolean; temperaments?: string | string[] },
-  ): Promise<Response<T>> {
+  async getCats<T>(options?: {
+    params?: URLSearchParams;
+    isAdopted?: boolean;
+    temperaments?: string | string[];
+  }): Promise<Response<T>> {
     const params = options?.params ?? new URLSearchParams();
 
     if (options?.isAdopted !== undefined) {
@@ -43,14 +45,19 @@ export class CatsService extends ServiceBase {
   }
 
   async updateCatById<T>(id: number, addCats: CatsModel): Promise<Response<T>> {
-    return await this.put(`${this.url}/${id}`, addCats);
+    const url = `${this.url}/${id}`;
+    console.log("updateCatById URL:", url);
+    return await this.put(url, addCats);
   }
 
   async deleteCatById<T>(id: number): Promise<Response<T>> {
     return await this.delete(`${this.url}/${id}`);
   }
 
-  async updateCatsStaffOrAdopter<T>(id: number, UpdateCatsModel: UpdateCatsModel): Promise<Response<T>> {
+  async updateCatsStaffOrAdopter<T>(
+    id: number,
+    UpdateCatsModel: UpdateCatsModel,
+  ): Promise<Response<T>> {
     return await this.patch(`${this.url}/${id}`, UpdateCatsModel);
   }
 }

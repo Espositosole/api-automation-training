@@ -8,6 +8,5 @@ export interface CatsModel {
     temperament: string[],
     staffInCharge: string,
     isAdopted: boolean,
-    adopterId?: number,
-    
+    adopterId?: number,   
 }
