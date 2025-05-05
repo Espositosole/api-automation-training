@@ -10,6 +10,8 @@ export class CatsService extends ServiceBase {
   }
 
   async addCats<T>(addCats: CatsModel): Promise<Response<T>> {
+    const url = `${this.url}`;
+    console.log("addCats URL:", url);
     return await this.post(this.url, addCats);
   }
 
@@ -37,10 +39,14 @@ export class CatsService extends ServiceBase {
     }
 
     const queryString = params.toString() ? `?${params.toString()}` : "";
+    const url = `${this.url}/${queryString}`;
+    console.log("getCats URL:", url);
     return await this.get(`${this.url}/${queryString}`);
   }
 
   async getCatById<T>(id: number): Promise<Response<T>> {
+    const url = `${this.url}/${id}`;
+    console.log("getCatById URL:", url);
     return await this.get(`${this.url}/${id}`);
   }
 
@@ -51,6 +57,8 @@ export class CatsService extends ServiceBase {
   }
 
   async deleteCatById<T>(id: number): Promise<Response<T>> {
+    const url = `${this.url}/${id}`;
+    console.log("deleteCatById URL:", url);
     return await this.delete(`${this.url}/${id}`);
   }
 
@@ -58,6 +66,8 @@ export class CatsService extends ServiceBase {
     id: number,
     UpdateCatsModel: UpdateCatsModel,
   ): Promise<Response<T>> {
+    const url = `${this.url}/${id}`;
+    console.log("updateCatsStaffOrAdopter URL:", url);
     return await this.patch(`${this.url}/${id}`, UpdateCatsModel);
   }
 }
