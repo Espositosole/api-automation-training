@@ -12,6 +12,9 @@ env:
 jobs:
   build:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./framework
 
     steps:
       - uses: actions/checkout@v2
@@ -27,4 +30,3 @@ jobs:
       - run: npm install
       - run: npm run lint
       - run: npm run test
-        working-directory: ./framework
