@@ -16,7 +16,6 @@ describe("Update Cat", () => {
     adoptersService = new AdoptersService();
     const addAdoptersResponse = await adoptersService.addAdopters<AdoptersModel>(addAdopters);
     adopterId = addAdoptersResponse.data.id ?? -1;
-    console.log("Adopter ID: ", adopterId);
 
     catsService = new CatsService();
     const addCatsResponse = await catsService.addCats<CatsModel>(addCats);
@@ -40,7 +39,6 @@ describe("Update Cat", () => {
     };
 
     const updatedCatResponse = await catsService.updateCatById<CatsModel>(catId, updatedCat);
-    console.log(updatedCatResponse.data);
 
     updatedCatResponse.status.should.equal(200);
     updatedCatResponse.data.should.have.property("id", catId);

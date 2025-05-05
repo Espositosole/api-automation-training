@@ -8,7 +8,6 @@ on:
 
 env:
   BASEURL: ${{ vars.BASEURL }}
-  run: echo "BASEURL is $BASEURL"
 
 jobs:
   build:
@@ -23,6 +22,11 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: "18.x"
+      - run: |
+            npm install
+            npm run dev &
+            npx wait-on http://localhost:3000
+        working-directory: ./CatCafeProject
       - run: npm install
       - run: npm run lint
       - run: npm run test
