@@ -16,6 +16,8 @@ describe("Add Adopter", () => {
     const addAdopters = generateAddAdoptersPayload();
     const addAdoptersResponse = await adoptersService.addAdopters<AdoptersModel>(addAdopters);
     await new Promise(resolve => setTimeout(resolve, 2000));
+    console.log("Status Code:", addAdoptersResponse.status);
+    console.log("Response Body:", JSON.stringify(addAdoptersResponse.data, null, 2));
 
     addAdoptersResponse.status.should.equal(201);
     addAdoptersResponse.data.should.have.property("id");

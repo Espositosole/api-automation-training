@@ -13,6 +13,8 @@ describe("Get Adopter by Id", () => {
     const addAdoptersResponse = await adoptersService.addAdopters<AdoptersModel>(addAdopters);
     id = addAdoptersResponse.data.id as number;
     await new Promise(resolve => setTimeout(resolve, 2000));
+    console.log("Status Code:", addAdoptersResponse.status);
+    console.log("Response Body:", JSON.stringify(addAdoptersResponse.data, null, 2));
   });
 
   it("Id and param set to true - 200", async () => {

@@ -13,6 +13,8 @@ describe("Delete Adopter", () => {
     id = addAdoptersResponse.data.id as number;
     await new Promise(resolve => setTimeout(resolve, 2000));
     console.log("Adopter ID:", id);
+    console.log("Status Code:", addAdoptersResponse.status);
+    console.log("Response Body:", JSON.stringify(addAdoptersResponse.data, null, 2));
   });
 
   it("Id set - 204", async () => {
