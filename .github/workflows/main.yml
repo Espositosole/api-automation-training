@@ -21,7 +21,7 @@ jobs:
       - name: Setup Test Step
         uses: actions/setup-node@v1
         with:
-          node-version: "18.x"
+          node-version: "20.x"
       - run: |
             npm install
             npm run dev &
