@@ -3,6 +3,7 @@ import { should } from "chai";
 import { AdoptersModel } from "../../models/request/AdoptersModel.ts";
 import { generateAddAdoptersPayload } from "../../utils/generate-payloads.js";
 import { ErrorResponse } from "../../models/responses/ErrorResponse.ts";
+import { retryUntilSuccess } from "../../utils/retries.js";
 should();
 
 describe("Add Adopter", () => {
@@ -14,8 +15,9 @@ describe("Add Adopter", () => {
 
   it("Success test - 201", async () => {
     const addAdopters = generateAddAdoptersPayload();
-    const addAdoptersResponse = await adoptersService.addAdopters<AdoptersModel>(addAdopters);
-    await new Promise(resolve => setTimeout(resolve, 2000));
+    const addAdoptersResponse = await retryUntilSuccess(() =>
+      adoptersService.addAdopters<AdoptersModel>(addAdopters)
+    );  
     console.log("Status Code:", addAdoptersResponse.status);
     console.log("Response Body:", JSON.stringify(addAdoptersResponse.data, null, 2));
 
