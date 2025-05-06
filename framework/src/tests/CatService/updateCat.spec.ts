@@ -15,11 +15,13 @@ describe("Update Cat", () => {
   before(async () => {
     adoptersService = new AdoptersService();
     const addAdoptersResponse = await adoptersService.addAdopters<AdoptersModel>(addAdopters);
-    adopterId = addAdoptersResponse.data.id ?? -1;
+    adopterId = addAdoptersResponse.data.id as number;
+    await new Promise(resolve => setTimeout(resolve, 2000));
 
     catsService = new CatsService();
     const addCatsResponse = await catsService.addCats<CatsModel>(addCats);
-    catId = addCatsResponse.data.id ?? -1;
+    catId = addCatsResponse.data.id as number;
+    await new Promise(resolve => setTimeout(resolve, 2000));
   });
 
   //BUG: https://github.com/Espositosole/api-automation-training/issues/11

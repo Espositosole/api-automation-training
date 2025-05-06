@@ -14,7 +14,8 @@ describe("Add Cat", () => {
     adoptersService = new AdoptersService();
     const addAdopters = generateAddAdoptersPayload();
     const addAdoptersResponse = await adoptersService.addAdopters<AdoptersModel>(addAdopters);
-    adopterId = addAdoptersResponse.data.id ?? -1;
+    adopterId = addAdoptersResponse.data.id as number;
+    await new Promise(resolve => setTimeout(resolve, 2000));
     catsService = new CatsService();
   });
 

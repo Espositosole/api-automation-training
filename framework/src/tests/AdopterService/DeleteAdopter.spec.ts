@@ -10,7 +10,9 @@ describe("Delete Adopter", () => {
     adoptersService = new AdoptersService();
     const addAdopters = generateAddAdoptersPayload();
     const addAdoptersResponse = await adoptersService.addAdopters<AdoptersModel>(addAdopters);
-    id = addAdoptersResponse.data.id ?? -1;
+    id = addAdoptersResponse.data.id as number;
+    await new Promise(resolve => setTimeout(resolve, 2000));
+    console.log("Adopter ID:", id);
   });
 
   it("Id set - 204", async () => {

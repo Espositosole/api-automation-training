@@ -11,7 +11,8 @@ describe("Get Adopter by Id", () => {
   before(async () => {
     adoptersService = new AdoptersService();
     const addAdoptersResponse = await adoptersService.addAdopters<AdoptersModel>(addAdopters);
-    id = addAdoptersResponse.data.id ?? -1;
+    id = addAdoptersResponse.data.id as number;
+    await new Promise(resolve => setTimeout(resolve, 2000));
   });
 
   it("Id and param set to true - 200", async () => {

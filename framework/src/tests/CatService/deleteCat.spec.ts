@@ -10,7 +10,8 @@ describe("Delete Cat by Id", () => {
   beforeEach(async () => {
     catsService = new CatsService();
     const addCatsResponse = await catsService.addCats<CatsModel>(addCats);
-    catId = addCatsResponse.data.id ?? -1;
+    catId = addCatsResponse.data.id as number;
+    await new Promise(resolve => setTimeout(resolve, 2000));
   });
 
   it("Success test - 204", async () => {

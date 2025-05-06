@@ -14,7 +14,8 @@ describe("Get Cats", () => {
 
   it("Success test no parameters - 200", async () => {
     const addCatsResponse = await catsService.addCats<CatsModel>(addCats);
-    catId = addCatsResponse.data.id ?? -1;
+    catId = addCatsResponse.data.id as number;
+    await new Promise(resolve => setTimeout(resolve, 2000));
 
     const getCatsResponse = await catsService.getCats<CatsModel>({
     })
@@ -40,7 +41,8 @@ describe("Get Cats", () => {
     addCats.isAdopted = true;
     addCats.adopterId = 1;
     const createdCat = await catsService.addCats<CatsModel>(addCats);
-    catId = createdCat.data.id ?? -1;
+    catId = createdCat.data.id as number;
+    await new Promise(resolve => setTimeout(resolve, 2000));
   
     const getCatsResponse = await catsService.getCats<CatsModel>({
       isAdopted: true,
@@ -64,7 +66,8 @@ describe("Get Cats", () => {
     addCats.adopterId = 1;
     addCats.temperament = ["Dominant", "Playful"];
     const createdCat = await catsService.addCats<CatsModel>(addCats);
-    catId = createdCat.data.id ?? -1;
+    catId = createdCat.data.id as number;
+    await new Promise(resolve => setTimeout(resolve, 2000));
   
     const getCatsResponse = await catsService.getCats<CatsModel>({
       isAdopted: true,

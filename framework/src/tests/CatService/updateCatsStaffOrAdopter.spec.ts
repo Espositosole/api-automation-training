@@ -12,7 +12,8 @@ describe("Update Cats Staff or Adopter", () => {
   before(async () => {
     catsService = new CatsService();
     const addCatsResponse = await catsService.addCats<CatsModel>(addCats);
-    catId = addCatsResponse.data.id ?? -1;
+    catId = addCatsResponse.data.id as number;
+    await new Promise(resolve => setTimeout(resolve, 2000));
   });
 
   //First need to create a staff member

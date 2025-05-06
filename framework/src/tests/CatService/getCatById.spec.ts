@@ -13,7 +13,8 @@ describe("Get Cat by Id", () => {
 
   it("Success test - 200", async () => {
     const addCatsResponse = await catsService.addCats<CatsModel>(addCats);
-    catId = addCatsResponse.data.id ?? -1;
+    catId = addCatsResponse.data.id as number;
+    await new Promise(resolve => setTimeout(resolve, 2000));
 
     const getCatByIdResponse = await catsService.getCatById<CatsModel>(catId);
     getCatByIdResponse.status.should.equal(200);

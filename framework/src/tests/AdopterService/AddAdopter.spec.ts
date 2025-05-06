@@ -15,6 +15,7 @@ describe("Add Adopter", () => {
   it("Success test - 201", async () => {
     const addAdopters = generateAddAdoptersPayload();
     const addAdoptersResponse = await adoptersService.addAdopters<AdoptersModel>(addAdopters);
+    await new Promise(resolve => setTimeout(resolve, 2000));
 
     addAdoptersResponse.status.should.equal(201);
     addAdoptersResponse.data.should.have.property("id");
