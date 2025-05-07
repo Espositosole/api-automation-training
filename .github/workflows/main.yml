@@ -29,7 +29,16 @@ jobs:
         run: |
           npm install
           npm run dev &  
-          sleep 10        
+      - name: ⏳ Wait for API to be ready
+        run: |
+            for i in {1..10}; do
+              if curl -s http://localhost:3000 | grep -q "Welcome to Cat Café API"; then
+                echo "✅ API is ready"
+                break
+              fi
+              echo "⏳ Waiting for API to be ready..."
+              sleep 10
+            done     
       # Back to the test framework
       - name: Run npm install and lint
         run: |
