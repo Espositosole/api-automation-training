@@ -15,7 +15,13 @@ describe.only("Add Adopter", () => {
   });
 
   it("Success test - 201", async () => {
-    const addAdopters = generateAddAdoptersPayload();
+    const addAdopters = {
+      name: "One",
+      lastName: "adopter",
+      dateOfBirth: "1995-05-05",
+      phone: "9876543210",
+      address: "456 Test Ave"
+    }
     const addAdoptersResponse = await retryUntilSuccess(() =>
       adoptersService.addAdopters<AdoptersModel>(addAdopters)
     );  
