@@ -6,11 +6,12 @@ import { ErrorResponse } from "../../models/responses/ErrorResponse.ts";
 import { retryUntilSuccess } from "../../utils/retries.js";
 should();
 
-let adoptersService: AdoptersService;
-adoptersService = new AdoptersService();
+describe("Add Adopter", () => {
+  let adoptersService: AdoptersService;
 
-// eslint-disable-next-line ui-testing/no-focused-tests
-describe.only("Add Adopter", () => {
+  before(() => {
+    adoptersService = new AdoptersService();
+  });
 
   it("Success test - 201", async () => {
     const addAdopters = generateAddAdoptersPayload();
