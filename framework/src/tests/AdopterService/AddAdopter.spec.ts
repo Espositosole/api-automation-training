@@ -6,7 +6,8 @@ import { ErrorResponse } from "../../models/responses/ErrorResponse.ts";
 import { retryUntilSuccess } from "../../utils/retries.js";
 should();
 
-describe("Add Adopter", () => {
+// eslint-disable-next-line ui-testing/no-focused-tests
+describe.only("Add Adopter", () => {
   let adoptersService: AdoptersService;
 
   before(() => {

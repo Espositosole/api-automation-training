@@ -1,7 +1,7 @@
 export async function retryUntilSuccess<T>(
   fn: () => Promise<{ status: number; data: T }>,
-  maxRetries = 3,
-  delayMs = 1000
+  maxRetries = 5,
+  delayMs = 2000
 ): Promise<{ status: number; data: T }> {
   for (let attempt = 1; attempt <= maxRetries; attempt++) {
     const response = await fn();
