@@ -1,6 +1,6 @@
-import { AdoptersModel } from "../models/request/AdoptersModel.ts";
-import { AdoptersService } from "../models/services/AdoptersService.ts";
-import { generateAddAdoptersPayload } from "../utils/generate-payloads.js";
+import { AdoptersModel } from "../../models/request/AdoptersModel.ts";
+import { AdoptersService } from "../../models/services/AdoptersService.ts";
+import { generateAddAdoptersPayload } from "../../utils/generate-payloads.js";
 
 describe("Delete Adopter", () => {
   let adoptersService: AdoptersService;
@@ -10,7 +10,11 @@ describe("Delete Adopter", () => {
     adoptersService = new AdoptersService();
     const addAdopters = generateAddAdoptersPayload();
     const addAdoptersResponse = await adoptersService.addAdopters<AdoptersModel>(addAdopters);
-    id = addAdoptersResponse.data.id ?? -1;
+    id = addAdoptersResponse.data.id as number;
+    await new Promise(resolve => setTimeout(resolve, 2000));
+    console.log("Adopter ID:", id);
+    console.log("Status Code:", addAdoptersResponse.status);
+    console.log("Response Body:", JSON.stringify(addAdoptersResponse.data, null, 2));
   });
 
   it("Id set - 204", async () => {

@@ -1,4 +1,5 @@
 import { AdoptersModel } from "../models/request/AdoptersModel";
+import { CatsModel } from "../models/request/CatsModel";
 
 export const generateAddAdoptersPayload = (
   name = `Matias ${Date.now()}`,
@@ -14,4 +15,30 @@ export const generateAddAdoptersPayload = (
     phone,
     address,
   } as AdoptersModel;
+};
+
+export const generateAddCatsPayload = (
+  name = `Kitty ${Date.now()}`,
+  age = 2,
+  breed = "Siamese",
+  dateJoined = "2023-10-01",
+  vaccinated = true,
+  temperament = ["Calm"],
+  staffInCharge = "00000000-0000-0000-0000-000000000000",
+  isAdopted = false,
+  adopterId?: number,
+  id?: number,
+): CatsModel => {
+  return {
+    name,
+    age,
+    breed,
+    dateJoined,
+    vaccinated,
+    temperament,
+    staffInCharge,
+    isAdopted,
+    adopterId,
+    id,
+  } as CatsModel;
 };

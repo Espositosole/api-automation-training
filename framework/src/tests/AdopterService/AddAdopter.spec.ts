@@ -1,8 +1,9 @@
-import { AdoptersService } from "../models/services/AdoptersService.ts";
+import { AdoptersService } from "../../models/services/AdoptersService.ts";
 import { should } from "chai";
-import { AdoptersModel } from "../models/request/AdoptersModel.ts";
-import { generateAddAdoptersPayload } from "../utils/generate-payloads.js";
-import { ErrorResponse } from "../models/responses/ErrorResponse.ts";
+import { AdoptersModel } from "../../models/request/AdoptersModel.ts";
+import { generateAddAdoptersPayload } from "../../utils/generate-payloads.js";
+import { ErrorResponse } from "../../models/responses/ErrorResponse.ts";
+import { retryUntilSuccess } from "../../utils/retries.js";
 should();
 
 describe("Add Adopter", () => {
@@ -14,7 +15,11 @@ describe("Add Adopter", () => {
 
   it("Success test - 201", async () => {
     const addAdopters = generateAddAdoptersPayload();
-    const addAdoptersResponse = await adoptersService.addAdopters<AdoptersModel>(addAdopters);
+    const addAdoptersResponse = await retryUntilSuccess(() =>
+      adoptersService.addAdopters<AdoptersModel>(addAdopters)
+    );  
+    console.log("Status Code:", addAdoptersResponse.status);
+    console.log("Response Body:", JSON.stringify(addAdoptersResponse.data, null, 2));
 
     addAdoptersResponse.status.should.equal(201);
     addAdoptersResponse.data.should.have.property("id");
@@ -28,7 +33,8 @@ describe("Add Adopter", () => {
   it("Invalid name - 400", async () => {
     const invalidAddAdopters: any = generateAddAdoptersPayload();
     invalidAddAdopters.name = 0;
-    const addAdoptersResponse = await adoptersService.addAdopters<ErrorResponse>(invalidAddAdopters);
+    const addAdoptersResponse =
+      await adoptersService.addAdopters<ErrorResponse>(invalidAddAdopters);
 
     addAdoptersResponse.status.should.equal(400);
   });
@@ -44,7 +50,8 @@ describe("Add Adopter", () => {
   it("Invalid lastname - 400", async () => {
     const invalidAddAdopters: any = generateAddAdoptersPayload();
     invalidAddAdopters.lastName = 0;
-    const addAdoptersResponse = await adoptersService.addAdopters<ErrorResponse>(invalidAddAdopters);
+    const addAdoptersResponse =
+      await adoptersService.addAdopters<ErrorResponse>(invalidAddAdopters);
 
     addAdoptersResponse.status.should.equal(400);
   });
@@ -65,7 +72,10 @@ describe("Add Adopter", () => {
     const addAdoptersResponse = await adoptersService.addAdopters<ErrorResponse>(addAdopters);
 
     addAdoptersResponse.status.should.equal(400);
-    addAdoptersResponse.data.error.should.contain("message", "The adopter must be at least 18 years old to adopt a cat");
+    addAdoptersResponse.data.error.should.contain(
+      "message",
+      "The adopter must be at least 18 years old to adopt a cat",
+    );
   });
 
   it("No DateOfBirth - 400", async () => {
@@ -103,7 +113,8 @@ describe("Add Adopter", () => {
   it("Invalid address number - 400", async () => {
     const invalidAddAdopters: any = generateAddAdoptersPayload();
     invalidAddAdopters.address = 0;
-    const addAdoptersResponse = await adoptersService.addAdopters<ErrorResponse>(invalidAddAdopters);
+    const addAdoptersResponse =
+      await adoptersService.addAdopters<ErrorResponse>(invalidAddAdopters);
 
     addAdoptersResponse.status.should.equal(400);
   });

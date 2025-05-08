@@ -1,7 +1,7 @@
-import { AdoptersService } from "../models/services/AdoptersService.ts";
-import { type GetAdoptersResponse } from "../models/responses/GetAdoptersResponse.js";
-import { AdoptersModel } from "../models/request/AdoptersModel.ts";
-import { generateAddAdoptersPayload } from "../utils/generate-payloads.ts";
+import { AdoptersService } from "../../models/services/AdoptersService.ts";
+import { type GetAdoptersResponse } from "../../models/responses/GetAdoptersResponse.js";
+import { AdoptersModel } from "../../models/request/AdoptersModel.ts";
+import { generateAddAdoptersPayload } from "../../utils/generate-payloads.ts";
 
 describe("Get Adopter by Id", () => {
   let adoptersService: AdoptersService;
@@ -11,7 +11,10 @@ describe("Get Adopter by Id", () => {
   before(async () => {
     adoptersService = new AdoptersService();
     const addAdoptersResponse = await adoptersService.addAdopters<AdoptersModel>(addAdopters);
-    id = addAdoptersResponse.data.id ?? -1;;
+    id = addAdoptersResponse.data.id as number;
+    await new Promise(resolve => setTimeout(resolve, 2000));
+    console.log("Status Code:", addAdoptersResponse.status);
+    console.log("Response Body:", JSON.stringify(addAdoptersResponse.data, null, 2));
   });
 
   it("Id and param set to true - 200", async () => {

@@ -12,16 +12,37 @@ env:
 jobs:
   build:
     runs-on: ubuntu-latest
+    environment: Testing
     defaults:
       run:
         working-directory: ./framework
 
     steps:
-      - uses: actions/checkout@v2
-      - name: Setup Test Step
-        uses: actions/setup-node@v1
+      - uses: actions/checkout@v4
+      - name: Set node version
+        uses: actions/setup-node@v4
         with:
-          node-version: "18.x"
-      - run: npm install
-      - run: npm run lint
-      - run: npm run test
+          node-version: "20.x"
+      # Install and start the CatCafe API
+      - name: Install and start API
+        working-directory: ./CatCafeProject
+        run: |
+          npm install
+          npm run dev &  
+      - name: ⏳ Wait for API to be ready
+        run: |
+            for i in {1..10}; do
+              if curl -s http://localhost:3000 | grep -q "Welcome to Cat Café API"; then
+                echo "✅ API is ready"
+                break
+              fi
+              echo "⏳ Waiting for API to be ready..."
+              sleep 10
+            done     
+      # Back to the test framework
+      - name: Run npm install and lint
+        run: |
+            npm install
+            npm run lint
+      - name: Test
+        run: npm run test
